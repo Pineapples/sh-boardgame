@@ -67,7 +67,7 @@ namespace SecretHitler.API.Controllers
         public IActionResult GetGame([FromHeader] int gameId)
         {
             var game = _gameRepository.Get(gameId);
-            _hubContext.Clients.All.InvokeAsync("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            _hubContext.Clients.All.SendAsync("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             return Ok(game);
         }
 
@@ -109,7 +109,7 @@ namespace SecretHitler.API.Controllers
             });
             var player = _playerRepository.GetPlayerByName(userName);
             game = _gameRepository.Get(game.Id);
-            _hubContext.Clients.All.InvokeAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            _hubContext.Clients.All.SendAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
             return Ok(player);
         }
