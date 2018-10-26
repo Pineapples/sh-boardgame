@@ -33,8 +33,6 @@ namespace SecretHitler.API.Migrations
 
                     b.Property<string>("JoinKey");
 
-                    b.Property<string>("Name");
-
                     b.HasKey("Id");
 
                     b.ToTable("Game");

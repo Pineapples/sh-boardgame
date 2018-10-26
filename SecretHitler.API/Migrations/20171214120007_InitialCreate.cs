@@ -17,8 +17,7 @@ namespace SecretHitler.API.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateCreated = table.Column<DateTime>(nullable: true),
                     GameStateId = table.Column<int>(nullable: false),
-                    JoinKey = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    JoinKey = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

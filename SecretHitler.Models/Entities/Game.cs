@@ -14,7 +14,6 @@ namespace SecretHitler.Models.Entities
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
         public DateTime? DateCreated { get; set; }
         public GameState GameStateId { get; set; }
         public ICollection<VoteRound> VoteRounds { get; set; }
