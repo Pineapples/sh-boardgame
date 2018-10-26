@@ -31,21 +31,12 @@ namespace SecretHitler.API.Controllers
         /// <summary>
         /// Creates a game
         /// </summary>
-        /// <param name="model">A JSON object containing the key "name"</param>
         /// <returns>A JSON object containing the created game</returns>
         [HttpPost]
-        public IActionResult CreateGame([FromBody] JToken model)
+        public IActionResult CreateGame()
         {
-            var name = model["name"]?.ToString();
-
-            if (string.IsNullOrEmpty(name))
-            {
-                return BadRequest(nameof(name) + " can not be empty");
-            }
-
             var game = new Game
             {
-                Name = name,
                 GameStateId = GameState.Open,
 
             };
