@@ -11,12 +11,12 @@ namespace SecretHitler.API.Hubs
     {
         public Task Send(string data)
         {
-            return Clients.All.InvokeAsync("Send", data);
+            return Clients.All.SendAsync("Send", data);
         }
 
         public Task PlayerJoined(List<Player> players)
         {
-            return Clients.All.InvokeAsync("PlayerJoined", players);
+            return Clients.All.SendAsync("PlayerJoined", players);
         }
     }
 }
