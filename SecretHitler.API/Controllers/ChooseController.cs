@@ -38,7 +38,7 @@ namespace SecretHitler.API.Controllers
             var game = _gameDataService.GetGame(gameId);
             if(!game.HasPlayer(chosenPlayerId))
             {
-                throw new EntityNotFoundException<Player>("Game does not contain chosen player");
+                throw new EntityNotFoundException<Player>(chosenPlayerId);
             }
 
             var state = _gameStateProvider.Get(game.GameStateId);

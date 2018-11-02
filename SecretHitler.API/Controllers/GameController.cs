@@ -37,12 +37,7 @@ namespace SecretHitler.API.Controllers
         [HttpPost]
         public IActionResult CreateGame()
         {
-            var game = new Game
-            {
-                GameStateId = GameState.Open,
-
-            };
-            return Ok(_gameDataService.AddGame(game));
+            return Ok(_gameService.CreateGame());
         }
 
         /// <summary>
@@ -53,8 +48,7 @@ namespace SecretHitler.API.Controllers
         [HttpPost("Start/{gameId}", Name = "StartGame")]
         public IActionResult StartGame(int gameId)
         {
-            var game = _gameService.StartGame(gameId);
-            return Ok(game);
+            return Ok(_gameService.StartGame(gameId));
         }
 
         /// <summary>
@@ -97,7 +91,7 @@ namespace SecretHitler.API.Controllers
                 throw new BadRequestException(nameof(userName) + " can not be empty");
             }
 
-            //game = _gameRepository.Get(game.Id);
+            //game = _gameDataService.GetGameByJoinKey(game.Id);
             //_hubContext.Clients.All.SendAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
             return Ok(_gameService.JoinGame(joinKey, userName));

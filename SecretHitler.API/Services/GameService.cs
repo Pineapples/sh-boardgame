@@ -1,10 +1,9 @@
-﻿using SecretHitler.API.DataServices.Interface;
-using SecretHitler.API.Repositories;
-using SecretHitler.Models.Entities;
-using SecretHitler.Models.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SecretHitler.API.DataServices.Interface;
+using SecretHitler.API.Repositories;
+using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.Services
 {
@@ -21,6 +20,15 @@ namespace SecretHitler.API.Services
             this._policyRepository = policyRepository;
             this._playerRepository = playerRepository;
             this._gameDataService = gameDataService;
+        }
+
+        public Game CreateGame() {
+            var game = new Game
+            {
+                GameStateId = GameState.Open,
+
+            };
+            return _gameDataService.AddGame(game);
         }
 
         public Game ViewGame(string joinKey) {
