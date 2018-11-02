@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using SecretHitler.Models.Exceptions.Interface;
 
 namespace SecretHitler.Models.Exceptions
 {
-    public class EntityNotFoundException<T> : Exception
+    public class EntityNotFoundException<T> : Exception, IEntityNotFoundException
     {
         public EntityNotFoundException()
         {
@@ -12,6 +11,10 @@ namespace SecretHitler.Models.Exceptions
         }
 
         public EntityNotFoundException(int id) : base($"An entity of type {typeof(T)} with id: {id} was not found.")
+        {
+        }
+
+        public EntityNotFoundException(string message) : base(message)
         {
         }
     }

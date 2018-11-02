@@ -1,4 +1,5 @@
-﻿using SecretHitler.API.Repositories;
+﻿using SecretHitler.API.DataServices.Interface;
+using SecretHitler.API.Repositories;
 using SecretHitler.Models.Entities;
 using SecretHitler.Models.Exceptions;
 using System;
@@ -9,37 +10,47 @@ namespace SecretHitler.API.Services
 {
     public class GameService : IGameService
     {
-        private readonly IGameRepository _gameRepository;
         private readonly IPolicyRepository _policyRepository;
+        private readonly IPlayerRepository _playerRepository;
+        private readonly IGameDataService _gameDataService;
 
-        public GameService(IGameRepository gameRepository, IPolicyRepository policyRepository)
+        public GameService(IPolicyRepository policyRepository,
+                           IPlayerRepository playerRepository,
+                           IGameDataService gameDataService)
         {
-            this._gameRepository = gameRepository;
             this._policyRepository = policyRepository;
+            this._playerRepository = playerRepository;
+            this._gameDataService = gameDataService;
+        }
+
+        public Game ViewGame(string joinKey) {
+            return _gameDataService.GetGameWithPlayers(joinKey);
+        }
+
+        public Player JoinGame(string joinKey, string userName) {
+            var game = _gameDataService.GetGame(joinKey);
+            _playerRepository.Add(new Player
+            {
+                UserName = userName,
+                GameId = game.Id
+            });
+            return _playerRepository.GetPlayerByName(userName, game.Id);
         }
 
         public Game StartGame(int gameId)
         {
-            var game = _gameRepository.Get(gameId);
-            if (game == null)
-            {
-                throw new EntityNotFoundException<Game>(gameId);
-            }
+            var game = _gameDataService.GetGame(gameId);
 
             AssignRoles(game.Players);
             game.GameStateId = GameState.ChoosePresident;
             game.ChoiceRounds.Add(new ChoiceRound());
-            _gameRepository.Update(game);
+            _gameDataService.UpdateGame(game);
             return game;
         }
 
         public Policy DrawPolicy(int gameId)
         {
-            var game = _gameRepository.Get(gameId);
-            if(game == null)
-            {
-                throw new EntityNotFoundException<Game>(gameId);
-            }
+            var game = _gameDataService.GetGame(gameId);
 
             var policiesLeft = Settings.PolicyDeckAmount - game.Policies.Count();
             var liberalPoliciesLeft = Settings.LiberalPolicyAmount - game.Policies.Where(x => x.PolicyType == PolicyType.Liberal).Count();

@@ -17,30 +17,30 @@ namespace SecretHitler.API.Test.Controllers
     public class GameControllerTest
     {
         GameController sut;
-        IGameRepository gameRepository;
-        IHubContext<GameHub> hubContext;
-        IPlayerRepository playerRepository;
-        IGameService gameService;
+        IGameRepository _gameRepository;
+        IHubContext<GameHub> _hubContext;
+        IPlayerRepository _playerRepository;
+        IGameService _gameService;
 
         public GameControllerTest() {
-            gameRepository = Substitute.For<IGameRepository>();
-            hubContext = Substitute.For<IHubContext<GameHub>>();
-            playerRepository = Substitute.For<IPlayerRepository>();
-            gameService = Substitute.For<IGameService>();
+            _gameRepository = Substitute.For<IGameRepository>();
+            _hubContext = Substitute.For<IHubContext<GameHub>>();
+            _playerRepository = Substitute.For<IPlayerRepository>();
+            _gameService = Substitute.For<IGameService>();
 
-            sut = new GameController(gameRepository, playerRepository, hubContext, gameService);
+            sut = new GameController(_gameRepository, _playerRepository, _hubContext, _gameService);
         }
 
         [Fact]
         public void CreateGame_CreatesANewGameWithOpenGamestate() {
             // Arrange
-            gameRepository.Add(Arg.Any<Game>()).Returns(parameters => { return parameters[0]; });
+            _gameRepository.Add(Arg.Any<Game>()).Returns(parameters => { return parameters[0]; });
 
             // Act
             var result = sut.CreateGame() as OkObjectResult;
             var resultGame = result.Value as Game;
             // Assert
-            gameRepository.Received().Add(Arg.Any<Game>());
+            _gameRepository.Received().Add(Arg.Any<Game>());
             result.Should().NotBeNull();
             resultGame.Should().NotBeNull();
             resultGame.GameStateId.Should().Be(GameState.Open);
@@ -49,7 +49,7 @@ namespace SecretHitler.API.Test.Controllers
         [Fact]
         public void StartGame_WithInvalidGameId_ReturnsBadRequest() {
             // Arrange
-            gameService.StartGame(Arg.Any<int>()).Returns(x => { throw new EntityNotFoundException<Game>(); });
+            _gameService.StartGame(Arg.Any<int>()).Returns(x => { throw new EntityNotFoundException<Game>(); });
 
             // Act
             var result = sut.StartGame(1) as BadRequestObjectResult;
@@ -64,7 +64,7 @@ namespace SecretHitler.API.Test.Controllers
         public void StartGame_WithValidGameId_ShouldReturnOk() {
             // Arrange
             var expectedObject = new Game();
-            gameService.StartGame(Arg.Any<int>()).Returns(expectedObject);
+            _gameService.StartGame(Arg.Any<int>()).Returns(expectedObject);
 
             // Act
             var result = sut.StartGame(1) as OkObjectResult;
@@ -80,7 +80,7 @@ namespace SecretHitler.API.Test.Controllers
         public void JoinGame_WithExistingJoinKey_ReturnsGame() {
             // Arrange
             var game = new Game();
-            gameRepository.GetByJoinKeyWithPlayers(Arg.Any<string>()).Returns(game);
+            _gameRepository.GetByJoinKeyWithPlayers(Arg.Any<string>()).Returns(game);
 
             // Act
             var result = sut.JoinGame("somestring") as OkObjectResult;
@@ -95,7 +95,7 @@ namespace SecretHitler.API.Test.Controllers
         public void JoinGame_WithNonExistingJoinKey_ReturnsNotFound() {
             // Arrange
             const string inputString = "somestring";
-            gameRepository.GetByJoinKeyWithPlayers(Arg.Any<string>()).Returns(x => { return null; });
+            _gameRepository.GetByJoinKeyWithPlayers(Arg.Any<string>()).Returns(x => { return null; });
 
             // Act
             var result = sut.JoinGame(inputString) as NotFoundObjectResult;
@@ -126,7 +126,7 @@ namespace SecretHitler.API.Test.Controllers
             // Arrange
             const string joinKey = "somestring";
             var jToken = JToken.FromObject(new { userName = "Klaas" });
-            gameRepository.GetByJoinKey(joinKey).Returns(x => { return null; });
+            _gameRepository.GetByJoinKey(joinKey).Returns(x => { return null; });
 
             // Act
             var result = sut.JoinGame(joinKey, jToken) as NotFoundObjectResult;
@@ -148,19 +148,19 @@ namespace SecretHitler.API.Test.Controllers
             var game = new Game();
             game.Id = gameId;
             var jToken = JToken.FromObject(new { userName });
-            gameRepository.GetByJoinKey(joinKey).Returns(game);
-            gameRepository.Get(gameId).Returns(game);
-            playerRepository.GetPlayerByName(userName).Returns(player);
+            _gameRepository.GetByJoinKey(joinKey).Returns(game);
+            _gameRepository.Get(gameId).Returns(game);
+            _playerRepository.GetPlayerByName(userName, gameId).Returns(player);
 
             // Act
             var result = sut.JoinGame(joinKey, jToken) as OkObjectResult;
 
             // Assert
-            gameRepository.Received().GetByJoinKey(joinKey);
-            gameRepository.Received().Get(gameId);
-            playerRepository.Received().Add(Arg.Is<Player>(x => x.UserName == userName && x.GameId == gameId));
-            playerRepository.Received().GetPlayerByName(userName);
-            hubContext.Received().Clients.All.SendAsync("PlayerJoined", Arg.Any<string>());
+            _gameRepository.Received().GetByJoinKey(joinKey);
+            _gameRepository.Received().Get(gameId);
+            _playerRepository.Received().Add(Arg.Is<Player>(x => x.UserName == userName && x.GameId == gameId));
+            _playerRepository.Received().GetPlayerByName(userName, gameId);
+            _hubContext.Received().Clients.All.SendAsync("PlayerJoined", Arg.Any<string>());
             result.Should().NotBeNull();
             result.Should().BeOfType<OkObjectResult>();
             result.Value.Should().Be(player);

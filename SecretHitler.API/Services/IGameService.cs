@@ -8,6 +8,8 @@ namespace SecretHitler.API.Services
 {
     public interface IGameService
     {
+        Game ViewGame(string joinKey);
+        Player JoinGame(string joinKey, string userName);
         Game StartGame(int gameId);
         Policy DrawPolicy(int gameId);
     }

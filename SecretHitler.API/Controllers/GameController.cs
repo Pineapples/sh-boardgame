@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using SecretHitler.API.Services;
 using SecretHitler.Models.Exceptions;
+using System;
+using SecretHitler.API.DataServices.Interface;
 
 namespace SecretHitler.API.Controllers
 {
@@ -15,17 +17,17 @@ namespace SecretHitler.API.Controllers
     [Route("api/Game")]
     public class GameController : Controller
     {
-        private readonly IGameRepository _gameRepository;
+        private readonly IGameDataService _gameDataService;
         private readonly IPlayerRepository _playerRepository;
         private readonly IHubContext<GameHub> _hubContext;
         private readonly IGameService _gameService;
 
-        public GameController(IGameRepository repository, IPlayerRepository playerRepository, IHubContext<GameHub> hubContext, IGameService gameService)
+        public GameController(IGameDataService gameDataService, IPlayerRepository playerRepository, IHubContext<GameHub> hubContext, IGameService gameService)
         {
-            _gameRepository = repository;
-            _playerRepository = playerRepository;
-            _hubContext = hubContext;
-            _gameService = gameService;
+            this._gameDataService = gameDataService;
+            this._playerRepository = playerRepository;
+            this._hubContext = hubContext;
+            this._gameService = gameService;
         }
 
         /// <summary>
@@ -40,8 +42,7 @@ namespace SecretHitler.API.Controllers
                 GameStateId = GameState.Open,
 
             };
-
-            return Ok(_gameRepository.Add(game));
+            return Ok(_gameDataService.AddGame(game));
         }
 
         /// <summary>
@@ -52,30 +53,31 @@ namespace SecretHitler.API.Controllers
         [HttpPost("Start/{gameId}", Name = "StartGame")]
         public IActionResult StartGame(int gameId)
         {
-            try
-            {
-                var game = _gameService.StartGame(gameId);
-                return Ok(game);
-            }
-            catch(EntityNotFoundException<Game> e)
-            {
-                return BadRequest(e);
-            }
+            var game = _gameService.StartGame(gameId);
+            return Ok(game);
         }
 
+        /// <summary>
+        /// Gets the game.
+        /// </summary>
+        /// <returns>The game.</returns>
+        /// <param name="gameId">Game identifier.</param>
         [HttpGet("{gameId}", Name = "GetGame")]
         public IActionResult GetGame([FromHeader] int gameId)
         {
-            var game = _gameRepository.Get(gameId);
+            var game = _gameDataService.GetGame(gameId);
             _hubContext.Clients.All.SendAsync("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             return Ok(game);
         }
 
+        /// <summary>
+        /// Gets all open games
+        /// </summary>
+        /// <returns>A list of open games</returns>
         [HttpGet(Name = "GetGames")]
         public IActionResult GetGames()
         {
-            var games = _gameRepository.GetAll().Where(x => x.GameStateId == GameState.Open).ToList();
-            return Ok(games);
+            return Ok(_gameDataService.GetOpenGames());
         }
 
 
@@ -92,26 +94,13 @@ namespace SecretHitler.API.Controllers
 
             if (string.IsNullOrEmpty(userName))
             {
-                return BadRequest(nameof(userName) + " can not be empty");
+                throw new BadRequestException(nameof(userName) + " can not be empty");
             }
 
-            var game = _gameRepository.GetByJoinKey(joinKey);
+            //game = _gameRepository.Get(game.Id);
+            //_hubContext.Clients.All.SendAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
 
-            if(game == null)
-            {
-                return NotFound(joinKey);
-            }
-
-            _playerRepository.Add(new Player
-            {
-                UserName = userName,
-                GameId = game.Id
-            });
-            var player = _playerRepository.GetPlayerByName(userName);
-            game = _gameRepository.Get(game.Id);
-            _hubContext.Clients.All.SendAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-
-            return Ok(player);
+            return Ok(_gameService.JoinGame(joinKey, userName));
         }
 
         /// <summary>
@@ -122,14 +111,7 @@ namespace SecretHitler.API.Controllers
         [HttpGet("View/{joinKey}")]
         public IActionResult JoinGame(string joinKey)
         {
-            var game = _gameRepository.GetByJoinKeyWithPlayers(joinKey);
-
-            if (game == null)
-            {
-                return NotFound(joinKey);
-            }
-
-            return Ok(game);
+            return Ok(_gameService.ViewGame(joinKey));
         }
     }
 }
