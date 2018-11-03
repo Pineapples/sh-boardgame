@@ -29,7 +29,7 @@ namespace SecretHitler.API.Test.Controllers
         }
 
         [Fact]
-        public void Choose_WithoutPlayerId_ThrowsBadRequestException() {
+        public void Choose_WithoutXPlayerHeader_ThrowsBadRequestException() {
             // Arrange
             const int playerId = 12;
             const int gameId = 84;
