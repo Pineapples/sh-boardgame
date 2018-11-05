@@ -1,0 +1,7 @@
+<td>{{ player.id }}</td>
+<td>{{ player.userName }}</td>
+<td>{{ player.role | roleType }}</td>
+<td><input name="choiceNumber" [(ngModel)]="choiceNumber" type="number" /></td>
+<td><button (click)="vote(true)">Ja!</button></td>
+<td><button (click)="vote(false)">Nein!</button></td>
+<td><button (click)="choose()">Choose</button></td>

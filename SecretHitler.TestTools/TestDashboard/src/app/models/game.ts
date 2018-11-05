@@ -2,12 +2,13 @@ import {Policy} from "./policy";
 import {VoteRound} from "./voteRound";
 import {Player} from "./player";
 import {ChoiceRound} from "./choiceRound";
+import {GameState} from "./gameState";
 
-export interface Game {
+export class Game {
     id: number;
     name: string;
     dateCreated: string;
-    gameStateId: number;
+    gameStateId: GameState;
     voteRounds: VoteRound[];
     choiceRounds: ChoiceRound[];
     players: Player[];

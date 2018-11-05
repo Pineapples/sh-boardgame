@@ -5,17 +5,29 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {CreateGameComponent} from './create-game/create-game.component';
 import {GameService} from './game.service';
-
+import { GameListComponent } from './game-list/game-list.component';
+import { GameDetailsComponent } from './game-details/game-details.component';
+import { FormsModule } from '@angular/forms';
+import { GameStatePipe } from './game-state-pipe.pipe';
+import { PlayerComponent } from './player/player.component';
+import { RoleTypePipe } from './role-type.pipe';
+ 
 @NgModule({
     declarations: [
         AppComponent,
-        CreateGameComponent
+        CreateGameComponent,
+        GameListComponent,
+        GameDetailsComponent,
+        GameStatePipe,
+        PlayerComponent,
+        RoleTypePipe
     ],
     imports: [
         BrowserModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
-    providers: [GameService],
+    providers: [GameService, GameStatePipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

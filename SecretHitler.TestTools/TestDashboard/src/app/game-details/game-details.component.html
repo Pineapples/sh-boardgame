@@ -1,0 +1,29 @@
+<form>
+  <label>Game ID: <input name="gameId" type="number" [(ngModel)]="selectedId" /></label>
+  <button (click)="getGame(selectedId)">Find game</button>
+  <div *ngIf="game">
+    <p>ID: <span>{{game.id}}</span></p>
+    <p>GameState: <span>{{game.gameStateId | gameState}}</span></p>
+    <p>joinKey: <span>{{game.joinKey}}</span></p>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>userName</th>
+        <th>Role</th>
+        <th>Chosen ID</th>
+        <th>Vote</th>
+        <th>Vote</th>
+        <th>Choose</th>
+      </tr>
+      <tr player *ngFor="let player of game.players" [game]="game" [player]="player"></tr>
+    </table>
+    <p>Players:
+      <span *ngFor="let player of game.players"><br/>
+        {{player.userName}}
+      </span>
+    </p>
+    <p *ngIf="game.gameStateId === 2"><button (click)="startGame(game.id)">Start Game</button></p>
+    <p *ngIf="game.gameStateId === 2"><input name="playerName" [(ngModel)]="addPlayerModel.name" /><button (click)="addPlayer(addPlayerModel.name)">Add
+        Player</button></p>
+  </div>
+</form>
