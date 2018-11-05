@@ -51,7 +51,7 @@ namespace SecretHitler.API.Services
 
             AssignRoles(game.Players);
             game.GameStateId = GameState.ChoosePresident;
-            game.ChoiceRounds.Add(new ChoiceRound());
+            game.ChoiceRounds = new List<ChoiceRound>{new ChoiceRound()};
             _gameDataService.UpdateGame(game);
             return game;
         }

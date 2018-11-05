@@ -1,0 +1,16 @@
+<button (click)="refresh()">Refresh</button>
+<table>
+  <tr>
+    <td>id</td>
+    <th>joinkey</th>
+    <th>dateCreated</th>
+  </tr>
+  <tr *ngFor="let game of games">
+    <td>{{game.id}}</td>
+    <td>{{game.joinKey}}</td>
+    <td>{{game.dateCreated}}</td>
+  </tr>
+</table>
+<p>
+  <game-details></game-details>
+</p>
