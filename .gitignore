@@ -305,4 +305,8 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
-.vscode
+
+SecretHitler.FEApp/node_modules
+
+#vscode
+.vscode/*
