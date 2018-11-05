@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SecretHitler.API.DataServices;
+using SecretHitler.API.DataServices.Interface;
+using SecretHitler.API.Extensions;
 using SecretHitler.API.GameStates;
 using SecretHitler.API.Hubs;
 using SecretHitler.API.Repositories;
@@ -52,6 +55,8 @@ namespace SecretHitler.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.ConfigureExceptionHandler();
+
             app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
@@ -60,7 +65,7 @@ namespace SecretHitler.API
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<GameHub>("GameConnectionHub");
+                routes.MapHub<GameHub>("/GameConnectionHub");
             });
 
             //app.UseSwagger();
@@ -91,7 +96,10 @@ namespace SecretHitler.API
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IGameStateProvider, GameStateProvider>();
 
-            //Gamestates
+            // DataServices
+            services.AddTransient<IGameDataService, GameDataService>();
+
+            // Gamestates
             services.AddTransient(typeof(IStateObject<ChoosePresidentGameState>), typeof(ChoosePresidentGameState));
             services.AddTransient(typeof(IStateObject<ChooseChancellorGameState>), typeof(ChooseChancellorGameState));
             services.AddTransient(typeof(IStateObject<VoteForGovernmentGameState>), typeof(VoteForGovernmentGameState));

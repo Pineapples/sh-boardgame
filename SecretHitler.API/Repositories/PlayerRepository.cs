@@ -32,9 +32,9 @@ namespace SecretHitler.API.Repositories
             return _context.Players.Find(playerId);
         }
 
-        public Player GetPlayerByName(string userName)
+        public Player GetPlayerByName(string userName, int gameId)
         {
-            return _context.Players.Include(x => x.Game).FirstOrDefault(x => x.UserName == userName);
+            return _context.Players.Include(x => x.Game).FirstOrDefault(x => x.UserName == userName && x.GameId == gameId);
         }
 
         public List<Player> GetAll()

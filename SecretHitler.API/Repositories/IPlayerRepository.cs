@@ -11,7 +11,7 @@ namespace SecretHitler.API.Repositories
         void Add(Player player);
         void Delete(int playerId);
         Player Get(int playerId);
-        Player GetPlayerByName(string userName);
+        Player GetPlayerByName(string userName, int gameId);
         List<Player> GetAll();
         void Update(Player player);
     }

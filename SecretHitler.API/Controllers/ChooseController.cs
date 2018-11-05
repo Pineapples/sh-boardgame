@@ -9,6 +9,8 @@ using SecretHitler.API.Services;
 using SecretHitler.Models.Entities;
 using SecretHitler.Models.Exceptions;
 using SecretHitler.API.GameStates;
+using SecretHitler.API.DataServices.Interface;
+using SecretHitler.API.Extensions;
 
 namespace SecretHitler.API.Controllers
 {
@@ -16,38 +18,31 @@ namespace SecretHitler.API.Controllers
     [Route("api/Game/{gameId}/Choose")]
     public class ChooseController : Controller
     {
-        private readonly IGameRepository _gameRepository;
-        private readonly IGameStateProvider gameStateProvider;
+        private readonly IGameDataService _gameDataService;
+        private readonly IGameStateProvider _gameStateProvider;
 
-        public ChooseController(IGameRepository gameRepository, IGameStateProvider gameStateProvider)
+        public ChooseController(IGameDataService gameDataService, IGameStateProvider gameStateProvider)
         {
-            _gameRepository = gameRepository;
-            this.gameStateProvider = gameStateProvider;
+            this._gameDataService = gameDataService;
+            this._gameStateProvider = gameStateProvider;
         }
 
         [HttpPost("{chosenPlayerId}")]
         public IActionResult Choose(int gameId, int chosenPlayerId)
         {
-            int playerId;
-            if(!int.TryParse(Request.Headers["X-Player"], out playerId))
+            if(!int.TryParse(Request.Headers["X-Player"], out var playerId))
             {
-                throw new Exception("X-Player request header is missing");
+                throw new BadRequestException("X-Player request header is missing");
             }
 
-            var game = _gameRepository.Get(gameId);
-            if(game == null)
+            var game = _gameDataService.GetGame(gameId);
+            if(!game.HasPlayer(chosenPlayerId))
             {
-                throw new EntityNotFoundException<Game>(gameId);
+                throw new EntityNotFoundException<Player>(chosenPlayerId);
             }
 
-            if(!game.Players.Any(x => x.Id == chosenPlayerId))
-            {
-                throw new Exception("Game does not contain chosen player");
-            }
-
-            var state = gameStateProvider.Get(game.GameStateId);
+            var state = _gameStateProvider.Get(game.GameStateId);
             state.Choose(game, playerId, chosenPlayerId);
-
             return Ok(game);
         }
 
