@@ -8,4 +8,6 @@ Build the database by running `dotnet ef database update`. A SQLite database is 
 
 # Running
 
-Run the API by using `dotnet run`
+Run the API by using `dotnet run`.
+
+Run the client by using `npm start` in the .web folder.
