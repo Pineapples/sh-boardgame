@@ -3,6 +3,27 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#front-end files
+#dependencies
+secrethitler.web/node_modules
+
+# testing
+secrethitler.web/coverage
+
+# production
+secrethitler.web/build
+
+# misc
+secrethitler.web/.DS_Store
+secrethitler.web/.env.local
+secrethitler.web/.env.development.local
+secrethitler.web/.env.test.local
+secrethitler.web/.env.production.local
+
+secrethitler.web/npm-debug.log*
+secrethitler.web/yarn-debug.log*
+secrethitler.web/yarn-error.log*
+
 # User-specific files
 *.suo
 *.user
