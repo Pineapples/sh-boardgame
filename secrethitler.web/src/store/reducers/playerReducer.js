@@ -6,7 +6,7 @@ export default (state = {}, action) => {
  switch (action.type) {
   case 'JOIN_SERVER':
    return {
-    playerData: action.payload
+	...action.payload
    }
   default:
    return state

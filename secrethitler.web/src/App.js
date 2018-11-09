@@ -2,39 +2,23 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import './style/App.css';
 
-import PlayerContainer from './components/PlayerContainer';
-import ServerContainer from './components/ServerContainer';
-// import { simpleAction } from './actions/simpleAction'
-
-// const mapStateToProps = state => ({
-// 	...state
-// });
-//
-//
-// const mapDispatchToProps = dispatch => ({
-// 	simpleAction: () => dispatch(simpleAction())
-// });
-
+import PlayerContainer from './components/player-join';
+import ServerContainer from './components/host-server';
 
 class App extends Component {
-	//  simpleAction = (event) => {
-	// 	this.props.simpleAction();
-	// }
-
-
-  render() {
-	return (
-	<Router>
-		<div id="app">
-			<Switch>
-				<Route exact path="/" component={Home} />
-		        <Route path="/server" component={ServerContainer} />
-		        <Route path="/player" component={PlayerContainer} />
-			</Switch>
-		</div>
-  	</Router>
-	);
-  }
+	render() {
+		return (
+			<Router>
+				<div id="app">
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route path="/server" component={ServerContainer} />
+						<Route path="/player" component={PlayerContainer} />
+					</Switch>
+				</div>
+			</Router>
+		);
+	}
 }
 
 //Home component renders the two links to decide which route to go.
