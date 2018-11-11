@@ -4,11 +4,6 @@ import request from 'request'
 import APIURL from '../../config.json';
 
 class ServerComponent extends Component {
-	constructor (props) {
-		super(props)
-
-		this.state = {}
-	}
 	//create server POST call.
 	createServer = (event) => {
 		request.post({url: APIURL.APIURL + 'Game', form: {}}, ( err, res, body ) => {
@@ -18,16 +13,8 @@ class ServerComponent extends Component {
 		})
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.server !== this.state.server) {
-			this.setState({
-				server: nextProps.server
-			})
-		}
-	}
-
 	render() {
-		const {server} = this.state
+		const server = this.props.server
 		return(
 			<div>
 				<button onClick={this.createServer}>Create a new server</button>

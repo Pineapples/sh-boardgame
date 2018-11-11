@@ -5,7 +5,7 @@ import './style.scss'
 class PlayerComponent extends Component {
 	render() {
 		const { data } = this.props
-		return <div> { data && data.length ? data : <span>No game data to show</span>} </div>
+		return <div> { data && data.length ? data : 'No game data to show'} </div>
 	}
 }
 
