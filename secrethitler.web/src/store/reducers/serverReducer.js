@@ -6,7 +6,7 @@ export default (state = {}, action) => {
  switch (action.type) {
   case 'CREATE_SERVER':
    return {
-    serverData: action.payload
+	...action.payload
    }
   default:
    return state
