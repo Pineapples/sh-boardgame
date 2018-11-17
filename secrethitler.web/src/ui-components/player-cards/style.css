@@ -1,0 +1,11 @@
+div.player-card:nth-child(2n+3){
+	margin-left:0
+}
+
+div.player-card{
+	height:4em;
+	background-color:#A55;
+	margin-top:1em;
+	line-height:4em;
+	cursor:pointer;
+}
