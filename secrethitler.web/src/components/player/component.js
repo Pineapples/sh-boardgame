@@ -3,18 +3,25 @@ import React, { Component } from 'react';
 import JoinServer from './join-server';
 import GameHeader from '../../ui-components/game-header';
 import PlayerCards from '../../ui-components/player-cards';
-
+import { gameStateStrings } from '../../helpers/gameStateServerTranslator.js';
 
 class PlayerComponent extends Component {
 	constructor(props) {
 		super(props);
+		console.log(props)
 		this.state = {
-			game: 'voting-round'
+			// game: !props.player.game ? 'login' : gameStateStrings[props.player.game.gameStateId]
+			game: 'Choose-President'
 		}
 	}
+	componentWillReceiveProps() {
+		this.setState({
+			game:!this.props.player.game ? 'login' : gameStateStrings[this.props.player.game.gameStateId]
+		})
+	}
 	render() {
-		const { player, actions } = this.props
-		const { userName } = player
+		const { player, actions } = this.props;
+		const { userName } = player;
 
 		//fake data.
 		const playerList = [
@@ -22,13 +29,13 @@ class PlayerComponent extends Component {
 		];
 		//Component list. This will link each game state to a component. We can give different props for each.
 		//TODO: if player needs to log in: don't show the other components.
+		//TODO: onClick method to voting round (should invoke action, API call and change in store.)
 		const components = {
 			'login': () => <JoinServer joinServer={actions.joinServer} />,
-			'wait-for-game-start': () => null,
-			'voting-round': () => <PlayerCards players={playerList} />
+			'Open': () => null,
+			'Choose-President': () => <PlayerCards players={playerList} />
 		}
-		// If the playerName is null, 0 or undefined,
-		// it will return <joinserver> as joinserver is also defined.
+
 		return (
 			<div>
 				<GameHeader playerName={userName} gameState={this.state.game} />
