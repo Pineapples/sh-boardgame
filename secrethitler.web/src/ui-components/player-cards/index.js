@@ -4,7 +4,7 @@ import './style.css';
 class PlayerCards extends Component {
 	render() {
 		const { players } = this.props
-		const style = "player-card six columns";
+		const style = "card six columns";
 		return (
 			<div>
 				{

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import JoinServer from './join-server';
 import GameHeader from '../../ui-components/game-header';
 import PlayerCards from '../../ui-components/player-cards';
+import JaNeinScreen from '../../ui-components/ja-nein-screen';
 import { gameStateStrings } from '../../helpers/gameStateServerTranslator.js';
 
 class PlayerComponent extends Component {
@@ -11,7 +12,7 @@ class PlayerComponent extends Component {
 		console.log(props)
 		this.state = {
 			// game: !props.player.game ? 'login' : gameStateStrings[props.player.game.gameStateId]
-			game: 'Choose-President'
+			game: 'Vote-For-Government'
 		}
 	}
 	componentWillReceiveProps() {
@@ -24,16 +25,16 @@ class PlayerComponent extends Component {
 		const { userName } = player;
 
 		//fake data.
-		const playerList = [
-			"kees", "Sjaak", "Harry", "Barry", "Henk", "Klaas"
-		];
+		const playerList = ["kees", "Sjaak", "Harry", "Barry", "Henk", "Klaas"];
+		const electedPlayers = [playerList[0], playerList[1]]
 		//Component list. This will link each game state to a component. We can give different props for each.
-		//TODO: if player needs to log in: don't show the other components.
 		//TODO: onClick method to voting round (should invoke action, API call and change in store.)
 		const components = {
 			'login': () => <JoinServer joinServer={actions.joinServer} />,
 			'Open': () => null,
-			'Choose-President': () => <PlayerCards players={playerList} />
+			'Choose-President': () => <PlayerCards players={playerList} />,
+			'Choose-Chancellor': () => null,
+			'Vote-For-Government': () => <JaNeinScreen electedPlayers={electedPlayers} />
 		}
 
 		return (

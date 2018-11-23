@@ -5,7 +5,19 @@
 }
 
 button {
-    min-width:5em;
-    min-height:5em;
-    margin: 5em 1em 0;
+	min-width:5em;
+	min-height:5em;
+	margin: 5em 1em 0;
+}
+
+div.card:nth-child(2n+3){
+	margin-left:0
+}
+
+div.card {
+	height:4em;
+	background-color:#A55;
+	margin-top:1em;
+	line-height:4em;
+	cursor:pointer;
 }
