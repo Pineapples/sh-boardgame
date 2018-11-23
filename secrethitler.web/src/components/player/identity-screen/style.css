@@ -1,0 +1,50 @@
+#identity-screen{
+	position:absolute;
+	height:33vh;
+	top:33vh;
+	right:0;
+	/* background-color:#AA5; */
+	box-shadow:1px 1px 3px 1px #000;
+	/* max-width:5em; */
+	padding:1em;
+	overflow:hidden;
+	display:inline-block;
+	/* transition:max-width .2s ease; */
+}
+
+.slide-enter {
+	max-width:5em;
+}
+
+.slide-enter.slide-enter-active {
+  max-width: 25vw;
+  transition: max-width 250ms ease-in;
+}
+
+.slide-leave {
+  max-width: 25vw;
+}
+
+.slide-leave.slide-leave-active {
+  max-width:5em;
+  transition: max-width 250ms ease-in;
+}
+
+/* #identity-screen.opened{
+	max-width:25vw;
+	transition:max-width .5s ease;
+} */
+
+#identity-screen.closed::after {
+	content: "< Reveal role";
+	line-height: 33vh;
+	display:inline-block;
+}
+
+#identity-screen.opened:after{
+	content: "> Hide role";
+	position:absolute;
+	bottom:.5em;
+	left:45%;
+
+}
