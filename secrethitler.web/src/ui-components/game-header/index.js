@@ -10,7 +10,7 @@ class GameHeader extends Component {
 			'Open': 'Welcome ' + playerName + ', Wait for game start',
 			'Choose-President': 'Vote for the first president',
 			'Choose-Chancellor': 'Pick your chancellor',
-			'Vote-For-Government': 'Place your ballod for the electorate'
+			'Vote-For-Government': 'Vote for the proposed government'
 		}
 		return <div>
 			<h2>
