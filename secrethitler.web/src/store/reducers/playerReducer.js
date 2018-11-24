@@ -1,4 +1,4 @@
-export default (state = {idScreenOpen:true}, action) => {
+export default (state = {idScreenOpen:false}, action) => {
 	switch (action.type) {
 		case 'JOIN_SERVER':
 		   return {
