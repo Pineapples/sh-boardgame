@@ -19,14 +19,14 @@ namespace SecretHitler.API.Controllers
     {
         private readonly IGameDataService _gameDataService;
         private readonly IPlayerRepository _playerRepository;
-        private readonly IHubContext<GameHub> _hubContext;
+        private readonly GameHub _gameHub;
         private readonly IGameService _gameService;
 
-        public GameController(IGameDataService gameDataService, IPlayerRepository playerRepository, IHubContext<GameHub> hubContext, IGameService gameService)
+        public GameController(IGameDataService gameDataService, IPlayerRepository playerRepository, GameHub gameHub, IGameService gameService)
         {
             this._gameDataService = gameDataService;
             this._playerRepository = playerRepository;
-            this._hubContext = hubContext;
+            this._gameHub = gameHub;
             this._gameService = gameService;
         }
 
@@ -60,7 +60,7 @@ namespace SecretHitler.API.Controllers
         public IActionResult GetGame([FromHeader] int gameId)
         {
             var game = _gameDataService.GetGame(gameId);
-            _hubContext.Clients.All.SendAsync("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            _gameHub.Send("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
             return Ok(game);
         }
 
@@ -91,10 +91,11 @@ namespace SecretHitler.API.Controllers
                 throw new BadRequestException(nameof(userName) + " can not be empty");
             }
 
-            //game = _gameDataService.GetGameByJoinKey(game.Id);
-            //_hubContext.Clients.All.SendAsync("PlayerJoined", JsonConvert.SerializeObject(game.Players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            var result = _gameService.JoinGame(joinKey, userName);
+            var game = _gameDataService.GetGame(joinKey);
+            _gameHub.PlayerJoined(game.Players);
 
-            return Ok(_gameService.JoinGame(joinKey, userName));
+            return Ok(result);
         }
 
         /// <summary>

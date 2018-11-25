@@ -55,14 +55,13 @@ namespace SecretHitler.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.ConfigureExceptionHandler();
-
             app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials());
 
+            app.ConfigureExceptionHandler();
             app.UseSignalR(routes =>
             {
                 routes.MapHub<GameHub>("/GameConnectionHub");
@@ -95,6 +94,9 @@ namespace SecretHitler.API
             services.AddTransient<IPolicyRepository, PolicyRepository>();
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IGameStateProvider, GameStateProvider>();
+            services.AddTransient<IChoiceRoundRepository, ChoiceRoundRepository>();
+            services.AddTransient<IChoiceRepository, ChoiceRepository>();
+            services.AddTransient<GameHub, GameHub>();
 
             // DataServices
             services.AddTransient<IGameDataService, GameDataService>();
