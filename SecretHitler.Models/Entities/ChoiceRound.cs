@@ -18,5 +18,6 @@ namespace SecretHitler.Models.Entities
         [ForeignKey(nameof(GameId))]
         public Game Game { get; set; }
         public DateTime? DateCreated { get; set; }
+        public ICollection<Choice> Choices { get; set; }
     }
 }
