@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import './style/normalize.css';
+import './style/skeleton.css';
 import './style/App.css';
 
-import PlayerContainer from './components/player-join';
+import PlayerContainer from './components/player';
 import ServerContainer from './components/host-server';
 
 class App extends Component {
