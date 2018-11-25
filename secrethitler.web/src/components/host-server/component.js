@@ -13,6 +13,13 @@ class ServerComponent extends Component {
 		})
 	}
 
+	socketTest = (event) => {
+		console.log(APIURL.APIURL + 'Game/' + this.props.server.id)
+		request.get(APIURL.APIURL + 'Game/'+ this.props.server.id, (err, res, body) => {
+			console.log(err, res, 'body:',JSON.parse(body))
+		})
+	}
+
 	render() {
 		const server = this.props.server
 		return(
@@ -26,6 +33,8 @@ class ServerComponent extends Component {
 							: ''
 					}
 				</pre>
+					<button onClick={this.socketTest}>klik mij voor een socket test</button>
+
 			</div>
 		)
 	}
