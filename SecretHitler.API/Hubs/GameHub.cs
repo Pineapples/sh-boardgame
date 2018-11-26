@@ -30,5 +30,11 @@ namespace SecretHitler.API.Hubs
         public Task GameInfo(Game game) {
             return Send("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         }
+
+        public async Task ConnectToGame(int gameId, int playerId) {
+            //await this._playerDataService.AddConnectionIdToPlayer(playerId, Context.Connectionid);
+            await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
+        }
+
     }
 }
