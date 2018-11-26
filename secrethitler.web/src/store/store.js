@@ -13,17 +13,10 @@ import rootReducer from './reducers';
 const persistConfig = {
  key: 'root',
  storage: storageSession,
- stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+ stateReconciler: autoMergeLevel2 
 };
 
 const pReducer = persistReducer(persistConfig, rootReducer);
 
-//initstate empty object
-// export function configureStore(initialState={}) {
-// 	return createStore(
-// 		pReducer,
-// 		applyMiddleware(thunk)
-// 	);
-// }
 export const configureStore = createStore(pReducer, applyMiddleware(thunk));
 export const persistor = persistStore(configureStore);
