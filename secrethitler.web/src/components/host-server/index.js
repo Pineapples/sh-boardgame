@@ -12,6 +12,7 @@ const mapStateToProps = (state) => {
 	}
 };
 
+//map dispatch actions to the properties of the components (lest we forget)
 const mapDispatch = dispatch => {
 	return {
 		actions: bindActionCreators(actions, dispatch)

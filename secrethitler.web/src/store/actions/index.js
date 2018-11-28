@@ -1,10 +1,15 @@
 /*
  src/actions/simpleAction.js
 */
-export const joinServer = playerData => {
+
+export const joinServer = (body, joinKey) => {
 	return {
 		type: 'JOIN_SERVER',
-		payload: playerData
+		fetch: {
+			type: 'POST',
+			url: 'Game/Join/' + joinKey
+		},
+		payload: body
 	}
 }
 
@@ -14,9 +19,23 @@ export const toggleIDScreen = () => {
 	}
 }
 
-export const createServer = serverData => {
+export const createServer = () => {
 	return {
 		type: 'CREATE_SERVER',
-		payload: serverData
+		fetch: {
+			type: 'POST',
+			url: 'Game'
+		},
+		payload: null
+	}
+}
+
+export const gameInfo = gameID => {
+	return {
+		type: 'GET_GAME_INFO',
+		fetch: {
+			type: 'GET',
+			url: 'Game/' + gameID
+		}
 	}
 }
