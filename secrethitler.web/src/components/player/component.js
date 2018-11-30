@@ -14,7 +14,7 @@ class PlayerComponent extends Component {
 		console.log(props)
 		this.state = {
 			game: !props.player.game ? 'login' : gameStateStrings[props.player.game.gameStateId]
-			// game: 'President-Policy-Pick'
+			// game: 'Choose-President'
 		}
 	}
 	//Function below updates screen based on new props received.
@@ -41,6 +41,8 @@ class PlayerComponent extends Component {
 		//Component list. This will link each game state to a component. We can give different props for each.
 		//TODO: onClick method to voting round (should invoke action, API call and change in store.)
 		//TODO: pass the role of the player to components and add logic whether to show controls for player or wait.
+		//'Choose-President': () => <PlayerCards type="choose" choosePresident={actions.choosePresident} players={playerList} />,
+
 		const components = {
 			'login': () => <JoinServer joinServer={actions.joinServer} />,
 			'Open': () => null,
