@@ -1,15 +1,10 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
+using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.Hubs;
 using SecretHitler.API.Repositories;
-using SecretHitler.Models.Entities;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
 using SecretHitler.API.Services;
 using SecretHitler.Models.Exceptions;
-using System;
-using SecretHitler.API.DataServices.Interface;
 
 namespace SecretHitler.API.Controllers
 {
@@ -60,7 +55,7 @@ namespace SecretHitler.API.Controllers
         public IActionResult GetGame([FromHeader] int gameId)
         {
             var game = _gameDataService.GetGame(gameId);
-            _gameHub.Send("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            _gameHub.Send("GameInfo", game);
             return Ok(game);
         }
 
@@ -93,7 +88,7 @@ namespace SecretHitler.API.Controllers
 
             var result = _gameService.JoinGame(joinKey, userName);
             var game = _gameDataService.GetGame(joinKey);
-            _gameHub.PlayerJoined(game.Players);
+            //_gameHub.PlayerJoined(game.Players);
 
             return Ok(result);
         }
