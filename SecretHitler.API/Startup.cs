@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 using SecretHitler.API.DataServices;
 using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.Extensions;
@@ -11,7 +12,6 @@ using SecretHitler.API.Hubs;
 using SecretHitler.API.Repositories;
 using SecretHitler.API.Services;
 using SecretHitler.Models.Entities;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace SecretHitler.API
 {
@@ -30,12 +30,14 @@ namespace SecretHitler.API
             services.AddCors();
             services.AddDbContext<DataContext>(options =>
                options.UseSqlite("Filename=./sqlite_database.sqlite"));
-            services.AddSignalR();
+
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-
+            services.AddSignalR().AddJsonProtocol(options => {
+                options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -44,7 +46,6 @@ namespace SecretHitler.API
 
             RegisterStateTypes();
             RegisterDependencyInjection(services);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
