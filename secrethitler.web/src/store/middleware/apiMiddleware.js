@@ -2,13 +2,14 @@ import request from 'request'
 import API from '../../config.json'
 
 const actions = {
-	'POST': (action, next) => {
+	'POST': (store, action, next) => {
+		const headers = {'Content-Type': 'application/json'};
+		console.log('POSTING DEM SWEET DATAS', action)
+		if(action.fetch.headers && action.fetch.headers['X-player']){headers = {...headers, 'X-Player' : store.player.id}};
 		request.post({
 			url: API.URL + action.fetch.url,
 			body: action.payload,
-			headers: {
-				'Content-Type': 'application/json'
-			}
+			headers: headers
 		}, ( err, res, body ) => {
 			if (body) {
 				console.log('dit heb ik gefetchdtd', JSON.parse(body));
@@ -17,7 +18,7 @@ const actions = {
 			}
 		})
 	},
-	'GET': (action, next) => {
+	'GET': (store, action, next) => {
 		request.get(API.URL + action.fetch.url, (err, res, body) =>{
 			if (body){
 				console.log('Deze heb k geget', JSON.parse(body));
@@ -39,7 +40,7 @@ const actions = {
 export const apiMiddleware = store => next => action => {
 	const type = action && action.fetch && action.fetch.type
 	if (type && actions[type]) {
-		actions[type](action, next)
+		actions[type](store, action, next)
 	} else {
 		next(action)
 	}

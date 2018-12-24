@@ -12,6 +12,12 @@ class ServerComponent extends Component {
 		}
 	}
 
+	startServer = () => {
+		if(this.props.server.id) {
+			this.props.actions.startServer(this.props.server.id)
+		}
+	}
+
 	render() {
 		const server = this.props.server
 		return(
@@ -26,6 +32,7 @@ class ServerComponent extends Component {
 					}
 				</pre>
 					<button onClick={this.socketTest}>klik mij voor een socket test</button>
+					<button onClick={this.startServer}>Start the game</button>
 
 			</div>
 		)

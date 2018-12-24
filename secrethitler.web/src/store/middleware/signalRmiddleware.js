@@ -8,7 +8,9 @@ const connection = new SignalR.HubConnectionBuilder()
 export function signalRRegistration(store){
 	connection.on("GameInfo", (game) => {
 		console.log("RECEIVED GameInfo", game)
+		store.dispatch({type: 'UPDATE_GAME', payload: game});
 	});
+
 
 	// TODO handle closing connections or failing to start connection (by retrying)
 	// connection.onclose(async () => {
