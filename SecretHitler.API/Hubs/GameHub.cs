@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.Hubs
@@ -17,24 +18,9 @@ namespace SecretHitler.API.Hubs
             this._context = context;
         }
 
-        public Task Send(string method, string data)
+        public Task Send(string method, object data)
         {
             return this._context.Clients.All.SendAsync(method, data);
         }
-
-        public Task PlayerJoined(IEnumerable<Player> players)
-        {
-            return Send("PlayerJoined", JsonConvert.SerializeObject(players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-        }
-
-        public Task GameInfo(Game game) {
-            return Send("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-        }
-
-        public async Task ConnectToGame(int gameId, int playerId) {
-            //await this._playerDataService.AddConnectionIdToPlayer(playerId, Context.Connectionid);
-            await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
-        }
-
     }
 }

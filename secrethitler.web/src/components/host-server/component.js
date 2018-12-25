@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import request from 'request'
-
-import APIURL from '../../config.json';
 
 class ServerComponent extends Component {
 	//create server POST call.
 	createServer = (event) => {
-		request.post({url: APIURL.APIURL + 'Game', form: {}}, ( err, res, body ) => {
-			if (body) {
-				this.props.actions.createServer(JSON.parse(body))
-			}
-		})
+		this.props.actions.createServer();
 	}
 
 	socketTest = (event) => {
-		console.log(APIURL.APIURL + 'Game/' + this.props.server.id)
-		request.get(APIURL.APIURL + 'Game/'+ this.props.server.id, (err, res, body) => {
-			console.log(err, res, 'body:',JSON.parse(body))
-		})
+		if(this.props.server.id) {
+			this.props.actions.gameInfo(this.props.server.id)
+		}
 	}
 
 	render() {
