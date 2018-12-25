@@ -7,7 +7,7 @@ const connection = new SignalR.HubConnectionBuilder()
 
 export function signalRRegistration(store){
 	connection.on("GameInfo", (game) => {
-		console.log("RECEIVED GameInfo", game)
+		console.log("RECEIVED GameInfo", game);
 	});
 
 	// TODO handle closing connections or failing to start connection (by retrying)
@@ -15,6 +15,9 @@ export function signalRRegistration(store){
 	//     await start();
 	// });
 
-	connection.start()
-
+	connection.start();
 };
+
+export function joinGame(playerId, gameId) {
+	connection.invoke('JoinGame', playerId, gameId);
+}
