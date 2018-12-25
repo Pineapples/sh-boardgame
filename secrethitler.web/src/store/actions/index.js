@@ -63,7 +63,7 @@ export const choosePlayer = (gameId, chosenPlayerId) => {
 			type: 'POST',
 			url: 'Game/' + gameId + '/Choose/' + chosenPlayerId,
 			headers: {
-				'X-Player' : null
+				'X-Player' : true
 			}
 		},
 		payload: null

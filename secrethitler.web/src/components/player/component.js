@@ -35,7 +35,7 @@ class PlayerComponent extends Component {
 		const playerList = this.props.player.game && this.props.player.game.Players;
 
 		//fake data.
-		// const playerList = ["kees", "Sjaak", "Harry", "Barry", "Henk", "Klaas"];
+		// const playerList = [{UserName: "kees", id: 1}, {UserName: "Sjaak", id:2}, {UserName: "Harry", id:3}, {UserName: "Barry", id:4}, {UserName: "Henk", id:5}, {UserName: "Klaas", id:6}];
 		const electedPlayers = playerList ? [playerList[0], playerList[1]] : null;
 		// player.role = 2; //HITLER
 		const policyCards = ['Lib', 'Fac', 'Fac'];
@@ -53,7 +53,7 @@ class PlayerComponent extends Component {
 		const components = {
 			'login': () => <JoinServer joinServer={actions.joinServer} />,
 			'Open': () => null,
-			'Choose-President': () => <PlayerCards choosePlayer={actions.choosePlayer} players={playerList} />,
+			'Choose-President': () => <PlayerCards gameId={player.gameId} choosePlayer={actions.choosePlayer} players={playerList} />,
 			'Choose-Chancellor': () => <PlayerCards players={playerList} />,
 			'Vote-For-Government': () => <JaNeinScreen electedPlayers={electedPlayers} />,
 			'President-Policy-Pick': () => <PolicyPicker policies={policyCards} />,

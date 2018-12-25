@@ -3,9 +3,13 @@ import API from '../../config.json'
 
 const actions = {
 	'POST': (store, action, next) => {
-		const headers = {'Content-Type': 'application/json'};
+		let headers = {'Content-Type': 'application/json'};
 		console.log('POSTING DEM SWEET DATAS', action)
-		if(action.fetch.headers && action.fetch.headers['X-player']){headers = {...headers, 'X-Player' : store.player.id}};
+		//add the X-Player header to calls that need this.
+		if(action.fetch.headers && action.fetch.headers['X-Player']){
+			headers = {...headers, 'X-Player' : store.getState().player.id}
+		};
+
 		request.post({
 			url: API.URL + action.fetch.url,
 			body: action.payload,
