@@ -1,6 +1,7 @@
 ﻿using System;
 using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.Repositories;
+using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.DataServices
 {
@@ -18,6 +19,10 @@ namespace SecretHitler.API.DataServices
             var player = this._playerRepository.Get(playerId);
             player.ConnectionId = connectionId;
             this._playerRepository.Update(player);
+        }
+
+        public Player GetPlayerById(int playerId) {
+            return this._playerRepository.Get(playerId);
         }
     }
 }
