@@ -88,7 +88,7 @@ namespace SecretHitler.API.Controllers
 
             var result = _gameService.JoinGame(joinKey, userName);
             var game = _gameDataService.GetGame(joinKey);
-            _gameHub.Send("PlayerJoined", game.Players, game.Id);
+            _gameHub.SendToGroup("PlayerJoined", game.Players, game.Id);
 
             return Ok(result);
         }
