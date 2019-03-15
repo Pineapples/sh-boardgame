@@ -28,8 +28,7 @@ namespace SecretHitler.API.Hubs
 
         public void JoinGame(int playerId, int gameId) {
             var connectionId = Context.ConnectionId;
-            Console.WriteLine(connectionId);
-            //_playerDataService.AddConnectionId(playerId, connectionId);
+            _playerDataService.AddConnectionId(playerId, connectionId);
         }
     }
 }
