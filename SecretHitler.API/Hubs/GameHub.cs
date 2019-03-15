@@ -26,9 +26,15 @@ namespace SecretHitler.API.Hubs
             return this._context.Clients.All.SendAsync(method, data);
         }
 
-        public void JoinGame(int playerId) {
+        public Task Send(string method, object data, int gameId) {
+            return this._context.Clients.Group(gameId.ToString()).SendAsync(method, data);
+        }
+
+        public Task JoinGame(int playerId) {
             var connectionId = Context.ConnectionId;
             _playerDataService.AddConnectionId(playerId, connectionId);
+            var player = _playerDataService.GetPlayerById(playerId);
+            return this._context.Groups.AddToGroupAsync(connectionId, player.GameId.ToString());
         }
     }
 }
