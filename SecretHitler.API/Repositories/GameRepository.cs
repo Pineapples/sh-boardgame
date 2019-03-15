@@ -67,10 +67,7 @@ namespace SecretHitler.API.Repositories
                 key = new string(Enumerable.Repeat(chars, length)
                   .Select(s => s[random.Next(s.Length)]).ToArray());
 
-                if(!_context.Games.Any(x => x.JoinKey == key))
-                {
-                    exists = false;
-                }
+                exists = _context.Games.Any(x => x.JoinKey == key);
             }
             return key;
         }

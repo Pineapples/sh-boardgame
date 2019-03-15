@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SecretHitler.API.DataServices.Interface;
 using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.Hubs
@@ -12,10 +13,12 @@ namespace SecretHitler.API.Hubs
     public class GameHub : Hub
     {
         private readonly IHubContext<GameHub> _context;
+        private readonly IPlayerDataService _playerDataService;
 
-        public GameHub(IHubContext<GameHub> context)
+        public GameHub(IHubContext<GameHub> context, IPlayerDataService playerDataService)
         {
             this._context = context;
+            this._playerDataService = playerDataService;
         }
 
         public Task Send(string method, object data)
@@ -23,13 +26,9 @@ namespace SecretHitler.API.Hubs
             return this._context.Clients.All.SendAsync(method, data);
         }
 
-        //public Task PlayerJoined(IEnumerable<Player> players)
-        //{
-        //    return Send("PlayerJoined", JsonConvert.SerializeObject(players, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
-        //}
-
-        //public Task GameInfo(Game game) {
-        //    return Send("GameInfo", JsonConvert.SerializeObject(game, Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, ContractResolver = new CamelCasePropertyNamesContractResolver() }));
-        //}
+        public void JoinGame(int playerId) {
+            var connectionId = Context.ConnectionId;
+            _playerDataService.AddConnectionId(playerId, connectionId);
+        }
     }
 }
