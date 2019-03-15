@@ -18,6 +18,6 @@ export function signalRRegistration(store){
 	connection.start();
 };
 
-export function joinGame(playerId, gameId) {
-	connection.invoke('JoinGame', playerId, gameId);
+export function joinGame(playerId) {
+	connection.invoke('JoinGame', playerId);
 }

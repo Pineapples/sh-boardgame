@@ -15,10 +15,11 @@ class JoinServer extends Component {
 		const gameID = this.joinKey.current.value;
 		//stringify
 		const deBody = JSON.stringify({"userName": userName})
-		this.props.joinServer(deBody, gameID).then((response) => {
-			console.log(response);
-			joinGame(1, 1);
-		});
+		this.props.joinServer(deBody, gameID);
+		// this.props.joinServer(deBody, gameID).then((response) => {
+			// console.log(response);
+			// joinGame(1);
+		// });
 	}
 	render() {
 		return <div>
