@@ -26,7 +26,7 @@ namespace SecretHitler.API.Hubs
             return this._context.Clients.All.SendAsync(method, data);
         }
 
-        public Task Send(string method, object data, int gameId) {
+        public Task SendToGroup(string method, object data, int gameId) {
             return this._context.Clients.Group(gameId.ToString()).SendAsync(method, data);
         }
 
