@@ -1,5 +1,5 @@
-import request from 'request'
-import API from '../../config.json'
+import request from 'request';
+import API from '../../config.json';
 
 const actions = {
 	'POST': (action, next) => {
@@ -13,6 +13,7 @@ const actions = {
 			if (body) {
 				console.log('dit heb ik gefetchdtd', JSON.parse(body));
 				action.payload = JSON.parse(body);
+				console.log(action)
 				next(action)
 			}
 		})
