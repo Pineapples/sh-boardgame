@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {joinGame} from '../../../store/middleware/signalRmiddleware'
 
 class JoinServer extends Component {
 	// Creating the refs in the constructor so that the entire component has access to them.
@@ -16,11 +15,8 @@ class JoinServer extends Component {
 		//stringify
 		const deBody = JSON.stringify({"userName": userName})
 		this.props.joinServer(deBody, gameID);
-		// this.props.joinServer(deBody, gameID).then((response) => {
-			// console.log(response);
-			// joinGame(1);
-		// });
 	}
+	
 	render() {
 		return <div>
 			<label>Enter your username: <input ref={this.playerName} type="text" /></label>
