@@ -1,6 +1,6 @@
 import { joinGame } from './signalRconnection.js';
 
-export const signalRMiddleware = store => next => action => {
+export const signalRmiddleware = store => next => action => {
 	if(action.type === 'JOIN_SERVER'){
 		console.log('signalRmidware here', action);
 

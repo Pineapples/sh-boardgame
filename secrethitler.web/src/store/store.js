@@ -9,7 +9,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import thunk from 'redux-thunk';
 import { apiMiddleware } from './middleware/apiMiddleware.js';
-import { signalRMiddleware } from './middleware/signalRMiddleware.js'
+import { signalRmiddleware } from './middleware/signalRmiddleware.js'
 import rootReducer from './reducers';
 
 const persistConfig = {
@@ -20,5 +20,5 @@ const persistConfig = {
 
 const pReducer = persistReducer(persistConfig, rootReducer);
 //signalRmiddleware als derde middleware
-export const configureStore = createStore(pReducer, applyMiddleware(thunk, apiMiddleware, signalRMiddleware));
+export const configureStore = createStore(pReducer, applyMiddleware(thunk, apiMiddleware, signalRmiddleware));
 export const persistor = persistStore(configureStore);
