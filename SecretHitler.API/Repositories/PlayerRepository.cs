@@ -44,7 +44,9 @@ namespace SecretHitler.API.Repositories
 
         public void Update(Player player)
         {
-            throw new NotImplementedException();
+            var entry = this._context.Entry(player);
+            entry.CurrentValues.SetValues(player);
+            this._context.SaveChanges();
         }
     }
 }

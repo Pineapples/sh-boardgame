@@ -1,22 +1,11 @@
-import * as SignalR from '@aspnet/signalr';
+import { joinGame } from './signalRconnection.js';
 
-const connection = new SignalR.HubConnectionBuilder()
-	.withUrl('http://localhost:5000/GameConnectionHub')
-	.configureLogging(SignalR.LogLevel.Information)
-	.build();
+export const signalRMiddleware = store => next => action => {
+	if(action.type === 'JOIN_SERVER'){
+		console.log('signalRmidware here', action);
 
-export function signalRRegistration(store){
-	connection.on("GameInfo", (game) => {
-		console.log("RECEIVED GameInfo", game)
-		store.dispatch({type: 'UPDATE_GAME', payload: game});
-	});
-
-
-	// TODO handle closing connections or failing to start connection (by retrying)
-	// connection.onclose(async () => {
-	//     await start();
-	// });
-
-	connection.start()
-
-};
+		console.log('invoking?', action.payload.id)
+		joinGame(action.payload.id)
+	}
+	next(action)
+}

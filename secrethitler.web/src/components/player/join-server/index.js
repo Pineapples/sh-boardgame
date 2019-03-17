@@ -10,12 +10,13 @@ class JoinServer extends Component {
 
 	//Send action to join server
 	joinServer = event => {
-		let userName = this.playerName.current.value;
-		let gameID = this.joinKey.current.value;
+		const userName = this.playerName.current.value;
+		const gameID = this.joinKey.current.value;
 		//stringify
 		const deBody = JSON.stringify({"userName": userName})
 		this.props.joinServer(deBody, gameID);
 	}
+	
 	render() {
 		return <div>
 			<label>Enter your username: <input ref={this.playerName} type="text" /></label>

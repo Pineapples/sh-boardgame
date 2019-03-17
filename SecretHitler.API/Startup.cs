@@ -101,6 +101,7 @@ namespace SecretHitler.API
 
             // DataServices
             services.AddTransient<IGameDataService, GameDataService>();
+            services.AddTransient<IPlayerDataService, PlayerDataService>();
 
             // Gamestates
             services.AddTransient(typeof(IStateObject<ChoosePresidentGameState>), typeof(ChoosePresidentGameState));
