@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.Hubs;
@@ -41,9 +42,11 @@ namespace SecretHitler.API.Controllers
         /// <param name="gameId"></param>
         /// <returns>The started game</returns>
         [HttpPost("Start/{gameId}", Name = "StartGame")]
-        public IActionResult StartGame(int gameId)
+        public async Task<IActionResult> StartGame(int gameId)
         {
-            return Ok(_gameService.StartGame(gameId));
+            var game = _gameService.StartGame(gameId);
+            await this._gameHub.SendToGroup("StartGame", game, gameId);
+            return Ok();
         }
 
         /// <summary>
@@ -52,10 +55,10 @@ namespace SecretHitler.API.Controllers
         /// <returns>The game.</returns>
         /// <param name="gameId">Game identifier.</param>
         [HttpGet("{gameId}", Name = "GetGame")]
-        public IActionResult GetGame([FromHeader] int gameId)
+        public async Task<IActionResult> GetGame([FromHeader] int gameId)
         {
             var game = _gameDataService.GetGame(gameId);
-            _gameHub.Send("GameInfo", game);
+            await _gameHub.Send("GameInfo", game);
             return Ok(game);
         }
 
@@ -77,7 +80,7 @@ namespace SecretHitler.API.Controllers
         /// <param name="model">A json object containing the key "userName"</param>
         /// <returns>The player that joined</returns>
         [HttpPost("Join/{joinKey}")]
-        public IActionResult JoinGame(string joinKey, [FromBody] JToken model)
+        public async Task<IActionResult> JoinGame(string joinKey, [FromBody] JToken model)
         {
             var userName = model["userName"]?.ToString();
 
@@ -88,7 +91,7 @@ namespace SecretHitler.API.Controllers
 
             var result = _gameService.JoinGame(joinKey, userName);
             var game = _gameDataService.GetGame(joinKey);
-            _gameHub.SendToGroup("PlayerJoined", game.Players, game.Id);
+            await _gameHub.SendToGroup("PlayerJoined", game.Players, game.Id);
 
             return Ok(result);
         }

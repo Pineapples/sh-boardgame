@@ -2,7 +2,7 @@ import * as SignalR from '@aspnet/signalr';
 
 const connection = new SignalR.HubConnectionBuilder()
 	.withUrl('http://localhost:5000/GameConnectionHub')
-	.configureLogging(SignalR.LogLevel.Information)
+	.configureLogging(SignalR.LogLevel.Trace)
 	.build();
 
 export function signalRRegistration(store){
