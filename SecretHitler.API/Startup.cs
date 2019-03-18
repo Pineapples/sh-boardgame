@@ -37,6 +37,7 @@ namespace SecretHitler.API
 
             services.AddSignalR().AddJsonProtocol(options => {
                 options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.PayloadSerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             //services.AddSwaggerGen(c =>
             //{
