@@ -32,7 +32,7 @@ class PlayerComponent extends Component {
 	render() {
 		const { player, actions } = this.props;
 		const { userName } = player;
-		const playerList = this.props.player.game && this.props.player.game.Players;
+		const playerList = this.props.player.game && this.props.player.game.players;
 
 		//fake data.
 		// const playerList = [{UserName: "kees", id: 1}, {UserName: "Sjaak", id:2}, {UserName: "Harry", id:3}, {UserName: "Barry", id:4}, {UserName: "Henk", id:5}, {UserName: "Klaas", id:6}];

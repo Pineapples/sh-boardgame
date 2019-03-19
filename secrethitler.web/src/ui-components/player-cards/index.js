@@ -11,7 +11,7 @@ class PlayerCards extends Component {
 			<div>
 				{
 					players.map((player,index) =>
-						<div className={style} onClick={() => this.props.choosePlayer(this.props.gameId, player.id)} key={player.UserName}>{player.UserName}</div>
+						<div className={style} onClick={() => this.props.choosePlayer(this.props.gameId, player.id)} key={player.userName}>{player.userName}</div>
 					)
 				}
 			</div>
