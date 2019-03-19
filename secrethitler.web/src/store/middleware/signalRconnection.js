@@ -10,6 +10,12 @@ export function signalRRegistration(store){
 		console.log("RECEIVED GameInfo", game);
 	});
 
+	connection.on("StartGame", (game) => {
+		store.dispatch({
+			type: "UPDATE_GAME",
+			payload: game
+		})
+	})
 	// TODO handle closing connections or failing to start connection (by retrying)
 	// connection.onclose(async () => {
 	//     await start();
@@ -19,7 +25,7 @@ export function signalRRegistration(store){
 };
 
 //joinGame is called from the signalRMiddleware.
+//This will add a player to a signalR group
 export function joinGame(playerId) {
-	console.log("INVOKER!", playerId)
 	connection.invoke('JoinGame', playerId);
 }
