@@ -16,6 +16,16 @@ export default (state = {idScreenOpen:false}, action) => {
 				...state,
 				idScreenOpen: !state.idScreenOpen
 			}
+			//This only updates the screen to stop showing the options.
+			//Other cases like vote can be added.
+		case 'CHOOSE_PLAYER':
+			return{
+				...state,
+				game: {
+					...state.game,
+					gameStateId: 2
+				}
+			}
 		  default:
 			   return state
 	}
