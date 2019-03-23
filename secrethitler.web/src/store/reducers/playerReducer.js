@@ -1,4 +1,4 @@
-export default (state = {idScreenOpen:false}, action) => {
+export default (state = {}, action) => {
 	switch (action.type) {
 		case 'JOIN_SERVER':
 			return {
@@ -10,11 +10,6 @@ export default (state = {idScreenOpen:false}, action) => {
 			return {
 				...state,
 				game: action.payload
-			}
-		case 'TOGGLE_ID_SCREEN':
-			return {
-				...state,
-				idScreenOpen: !state.idScreenOpen
 			}
 			//This only updates the screen to stop showing the options.
 			//Other cases like vote can be added.

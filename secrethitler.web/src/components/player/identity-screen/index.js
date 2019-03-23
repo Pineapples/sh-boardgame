@@ -5,7 +5,25 @@ import {roleStrings} from '../../../helpers/roleTranslator';
 import './style.css';
 
 class IdentityScreen extends Component {
+	constructor() {
+		super()
+		this.handleButtonPress = this.handleButtonPress.bind(this)
+		this.handleButtonRelease = this.handleButtonRelease.bind(this);
+		this.state = {
+			screenOpen: false
+		}
+	}
+	handleButtonPress() {
+		this.setState({
+			screenOpen: true
+		})
+	}
 
+	handleButtonRelease() {
+		this.setState({
+			screenOpen: false
+		})
+	}
 	render() {
 		const role = this.props.player && roleStrings[this.props.player.role];
 		const party = role === 'Hitler' ? 'Fascist' : role;
@@ -19,9 +37,14 @@ class IdentityScreen extends Component {
 			 bodyText = <p>Here you will find your secret identity when the game has started</p>;
 		 }
 
-		const isOpened = this.props.player.idScreenOpen === true ? 'opened' : 'closed';
+		const isOpened = this.state.screenOpen ? 'opened' : 'closed';
 		return(
-			<div id="identity-screen" className={isOpened} onClick={this.props.toggleScreen}>
+			<div
+			onTouchStart={this.handleButtonPress}
+			onTouchEnd={this.handleButtonRelease}
+			onMouseDown={this.handleButtonPress}
+			onMouseUp={this.handleButtonRelease}
+			id="identity-screen" className={isOpened} >
 				<CSSTransitionGroup
 				 transitionName="slide"
 				 transitionEnterTimeout={250}
