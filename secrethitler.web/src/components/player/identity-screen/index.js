@@ -37,7 +37,7 @@ class IdentityScreen extends Component {
 			 bodyText = <p>Here you will find your secret identity when the game has started</p>;
 		 }
 
-		const isOpened = this.state.screenOpen === true ? 'opened' : 'closed';
+		const isOpened = this.state.screenOpen ? 'opened' : 'closed';
 		return(
 			<div
 			onTouchStart={this.handleButtonPress}
