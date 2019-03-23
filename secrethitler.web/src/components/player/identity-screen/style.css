@@ -1,50 +1,74 @@
-#identity-screen{
-	position:absolute;
-	height:33vh;
-	top:33vh;
-	right:0;
-	/* background-color:#AA5; */
-	box-shadow:1px 1px 3px 1px #000;
-	/* max-width:5em; */
-	padding:1em;
-	overflow:hidden;
-	display:inline-block;
-	/* transition:max-width .2s ease; */
+#identity-screen {
+	position: absolute;
+	max-height: 33%;
+	padding:10px 5px;
+	top:33%;
+	right: 0;
+	background-color: #666;
+	color:white;
+	text-transform: uppercase;
+	font-size:.8em;
+	font-weight: bold;
+	box-shadow: 1px 1px 3px 1px #000;
+	/* max-width: 5em; */
+	/* padding: 1em; */
+	overflow: hidden;
+	display: inline-block;
+	/* transition: max-width .2s ease; */
+	/* max-width: 2em; */
+	text-orientation: sideways-right;
+	writing-mode: vertical-lr;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	 -khtml-user-select: none;
+	   -moz-user-select: none;
+		-ms-user-select: none;
+			user-select: none;
+	transition: width 250ms ease;
 }
-
 .slide-enter {
-	max-width:5em;
+	width:1em;
 }
 
 .slide-enter.slide-enter-active {
-  max-width: 25vw;
-  transition: max-width 250ms ease-in;
+  width: 25vw;
+  transition: width 250ms ease;
 }
 
 .slide-leave {
-  max-width: 25vw;
+  width: 25vw;
+  text-orientation: unset;
+  writing-mode: horizontal-tb;
+  font-weight: normal;
+  text-transform: none;
 }
 
 .slide-leave.slide-leave-active {
-  max-width:5em;
-  transition: max-width 250ms ease-in;
+  width:1em;
+  transition: width 250ms ease;
 }
 
-/* #identity-screen.opened{
-	max-width:25vw;
-	transition:max-width .5s ease;
-} */
+#identity-screen.opened{
+	text-orientation: unset;
+	writing-mode: horizontal-tb;
+	padding:2em;
+	font-weight: normal;
+	text-transform: none;
+	overflow:hidden;
+}
 
 #identity-screen.closed::after {
-	content: "< Reveal role";
-	line-height: 33vh;
+	content: "Hold to reveal role";
+	/* line-height: 33vh; */
 	display:inline-block;
+	text-orientation: sideways-right;
+	writing-mode: vertical-lr;
 }
 
-#identity-screen.opened:after{
+/* #identity-screen.opened:after{
 	content: "> Hide role";
 	position:absolute;
 	bottom:.5em;
 	left:45%;
 
-}
+} */

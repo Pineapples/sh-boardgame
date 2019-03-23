@@ -20,12 +20,6 @@ export const startServer = id => {
 	}
 }
 
-export const toggleIDScreen = () => {
-	return {
-		type: 'TOGGLE_ID_SCREEN'
-	}
-}
-
 export const createServer = () => {
 	return {
 		type: 'CREATE_SERVER',

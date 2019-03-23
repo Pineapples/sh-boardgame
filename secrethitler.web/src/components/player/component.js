@@ -18,8 +18,6 @@ class PlayerComponent extends Component {
 	}
 	//Function below updates screen based on new props received.
 	//Will only update the state if the gameState has changed.
-	//gameStateId has capital here for sockets.
-	//TODO remove capital || statements when camelCase bug is fixed
 	componentWillReceiveProps(nextProps) {
 		const newGameState = nextProps.player.game && gameStateStrings[nextProps.player.game.gameStateId];
 		if(newGameState !== undefined && this.state.game) {
@@ -37,19 +35,11 @@ class PlayerComponent extends Component {
 		//fake data.
 		// const playerList = [{UserName: "kees", id: 1}, {UserName: "Sjaak", id:2}, {UserName: "Harry", id:3}, {UserName: "Barry", id:4}, {UserName: "Henk", id:5}, {UserName: "Klaas", id:6}];
 		const electedPlayers = playerList ? [playerList[0], playerList[1]] : null;
-		// player.role = 2; //HITLER
+		 // player.role = 2; //HITLER
 		const policyCards = ['Lib', 'Fac', 'Fac'];
 
-		//TODO get the chosen player from the player cards then do the action.
-		//This way we don't have to sent down all the data to the part.
-		// const chooseAction = () => {
-		// 	actions.choosePlayer(this.props.player.gameId, this.props.player.game.)
-		// }
 		//Component list. This will link each game state to a component. We can give different props for each.
-		//TODO: onClick method to voting round (should invoke action, API call and change in store.)
 		//TODO: pass the role of the player to components and add logic whether to show controls for player or wait.
-		//'Choose-President': () => <PlayerCards type="choose" choosePresident={actions.choosePresident} players={playerList} />,
-
 		const components = {
 			'login': () => <JoinServer joinServer={actions.joinServer} />,
 			'Open': () => null,
@@ -68,7 +58,7 @@ class PlayerComponent extends Component {
 						components[this.state.game]()
 					}
 				</div>
-				<IdentityScreen toggleScreen={actions.toggleIDScreen} player={player} />
+				<IdentityScreen player={player} />
 			</div>
 		)
 	}
