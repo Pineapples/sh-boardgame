@@ -19,7 +19,7 @@ class IdentityScreen extends Component {
 		})
 	}
 
-	handleButtonRelease () {
+	handleButtonRelease() {
 		this.setState({
 			screenOpen: false
 		})
