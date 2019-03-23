@@ -13,7 +13,7 @@ class IdentityScreen extends Component {
 			screenOpen: false
 		}
 	}
-	handleButtonPress () {
+	handleButtonPress() {
 		this.setState({
 			screenOpen: true
 		})
