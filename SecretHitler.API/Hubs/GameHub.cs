@@ -10,7 +10,7 @@ using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.Hubs
 {
-    public class GameHub : Hub
+    public class GameHub : Hub, IGameHub
     {
         private readonly IHubContext<GameHub> _context;
         private readonly IPlayerDataService _playerDataService;
@@ -28,6 +28,11 @@ namespace SecretHitler.API.Hubs
 
         public async Task SendToGroup(string method, object data, int gameId) {
             await this._context.Clients.Group(gameId.ToString()).SendAsync(method, data);
+        }
+
+        public async Task SendToPlayer(string method, object data, string connectionId) {
+            await this._context.Clients.Client(connectionId).SendAsync(method, data);
+
         }
 
         public async Task JoinGame(int playerId) {
