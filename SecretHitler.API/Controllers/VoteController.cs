@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.GameStates;
 using SecretHitler.API.Repositories;
 using SecretHitler.API.Services;
+using SecretHitler.Models.Dto;
 using SecretHitler.Models.Entities;
 using SecretHitler.Models.Exceptions;
 using System;
@@ -36,7 +38,7 @@ namespace SecretHitler.API.Controllers
             var game = _gameDataService.GetGame(gameId);
             var state = _gameStateProvider.Get(game.GameStateId);
             state.Vote(game, playerId, inFavor);
-            return Ok(game);
+            return Ok(Mapper.Map<GameStatusDto>(game));
         }
     }
 }

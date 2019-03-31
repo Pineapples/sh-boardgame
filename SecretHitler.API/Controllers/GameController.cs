@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -62,7 +63,7 @@ namespace SecretHitler.API.Controllers
         public IActionResult GetGame([FromHeader] int gameId)
         {
             var game = _gameDataService.GetGame(gameId);
-            return Ok(game);
+            return Ok(Mapper.Map<GameStatusDto>(game));
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace SecretHitler.API.Controllers
         [HttpGet(Name = "GetGames")]
         public IActionResult GetGames()
         {
-            return Ok(_gameDataService.GetOpenGames());
+            return Ok(Mapper.Map<List<GameListItemDto>>(_gameDataService.GetOpenGames()));
         }
 
 
@@ -98,7 +99,7 @@ namespace SecretHitler.API.Controllers
 
             await _gameHub.SendToGroup(WebSocketMessages.PLAYER_JOINED, players, game.Id);
 
-            return Ok(result);
+            return Ok(Mapper.Map<PlayerInfoDto>(result));
         }
 
         /// <summary>

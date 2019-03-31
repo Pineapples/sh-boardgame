@@ -11,6 +11,8 @@ using SecretHitler.Models.Exceptions;
 using SecretHitler.API.GameStates;
 using SecretHitler.API.DataServices.Interface;
 using SecretHitler.API.Extensions;
+using SecretHitler.Models.Dto;
+using AutoMapper;
 
 namespace SecretHitler.API.Controllers
 {
@@ -43,7 +45,7 @@ namespace SecretHitler.API.Controllers
 
             var state = _gameStateProvider.Get(game.GameStateId);
             state.Choose(game, playerId, chosenPlayerId);
-            return Ok(game);
+            return Ok(Mapper.Map<GameStatusDto>(game));
         }
 
     }

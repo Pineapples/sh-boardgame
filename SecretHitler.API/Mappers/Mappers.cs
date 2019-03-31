@@ -15,6 +15,7 @@ namespace SecretHitler.API.Mappers
             cfg.CreateMap<Player, PlayerInfoDto>();
             cfg.CreateMap<Policy, PolicyDto>();
             cfg.CreateMap<VoteRound, VoteRoundDto>();
+            cfg.CreateMap<Game, GameListItemDto>();
 
             cfg.CreateMap<Choice, ChoiceDto>()
             .ForMember(d => d.Chooser, o => o.MapFrom(s => s.Chooser.UserName))
