@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using SecretHitler.API.GameStates;
 using SecretHitler.API.Hubs;
 using SecretHitler.API.Repositories;
 using SecretHitler.API.Services;
+using SecretHitler.API.Mappers;
 using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API
@@ -45,6 +47,7 @@ namespace SecretHitler.API
             //    c.IncludeXmlComments(string.Format(@"{0}\SecretHitler.API.xml", System.AppDomain.CurrentDomain.BaseDirectory));
             //});
 
+            Mapper.Initialize(Mappers.Mappers.InitializeMappers);
             RegisterStateTypes();
             RegisterDependencyInjection(services);
         }
@@ -98,7 +101,7 @@ namespace SecretHitler.API
             services.AddTransient<IGameStateProvider, GameStateProvider>();
             services.AddTransient<IChoiceRoundRepository, ChoiceRoundRepository>();
             services.AddTransient<IChoiceRepository, ChoiceRepository>();
-            services.AddTransient<GameHub, GameHub>();
+            services.AddTransient<IGameHub, GameHub>();
 
             // DataServices
             services.AddTransient<IGameDataService, GameDataService>();
