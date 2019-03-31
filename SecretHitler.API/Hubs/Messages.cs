@@ -8,5 +8,6 @@ namespace SecretHitler.API.Hubs
         public const string START_GAME = "StartGame";
         public const string PLAYER_CHOSE = "PlayerChose";
         public const string NEXT_STATE = "NextState";
+        public const string DISTRIBUTE_ROLE = "DistributeRole";
     }
 }

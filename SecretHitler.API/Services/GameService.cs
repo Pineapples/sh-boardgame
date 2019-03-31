@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using SecretHitler.API.DataServices.Interface;
+using SecretHitler.API.Hubs;
 using SecretHitler.API.Repositories;
+using SecretHitler.Models.Dto;
 using SecretHitler.Models.Entities;
 
 namespace SecretHitler.API.Services
@@ -12,14 +15,17 @@ namespace SecretHitler.API.Services
         private readonly IPolicyRepository _policyRepository;
         private readonly IPlayerRepository _playerRepository;
         private readonly IGameDataService _gameDataService;
+        private readonly IGameHub _gameHub;
 
         public GameService(IPolicyRepository policyRepository,
                            IPlayerRepository playerRepository,
-                           IGameDataService gameDataService)
+                           IGameDataService gameDataService,
+                           IGameHub gameHub)
         {
             this._policyRepository = policyRepository;
             this._playerRepository = playerRepository;
             this._gameDataService = gameDataService;
+            this._gameHub = gameHub;
         }
 
         public Game CreateGame() {
@@ -53,6 +59,7 @@ namespace SecretHitler.API.Services
             game.GameStateId = GameState.ChoosePresident;
             game.ChoiceRounds = new List<ChoiceRound>{new ChoiceRound()};
             _gameDataService.UpdateGame(game);
+            NotifyPlayerRoles(game.Players);
             return game;
         }
 
@@ -111,6 +118,12 @@ namespace SecretHitler.API.Services
             Random rnd = new Random();
             var index = rnd.Next(0, playersToAssign.Count() - 1);
             playersToAssign.ElementAt(index).Role = role;
+        }
+
+        private void NotifyPlayerRoles(IEnumerable<Player> players) {
+            foreach(var player in players) {
+                this._gameHub.SendToPlayer(WebSocketMessages.DISTRIBUTE_ROLE, Mapper.Map<PlayerInfoDto>(player), player.ConnectionId);
+            }
         }
 
     }
